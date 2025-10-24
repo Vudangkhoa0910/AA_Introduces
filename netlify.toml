@@ -4,7 +4,7 @@
   publish = "."
   command = "echo 'No build required'"
 
-# Redirect all routes to index.html for client-side routing
+# Redirect specific routes to index.html for client-side routing
 [[redirects]]
   from = "/vi"
   to = "/index.html"
@@ -17,6 +17,11 @@
 
 [[redirects]]
   from = "/vi-en"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ve_en"
   to = "/index.html"
   status = 200
 
