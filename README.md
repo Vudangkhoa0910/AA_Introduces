@@ -1,104 +1,117 @@
 # PDF Viewer Application
 
-A modern, responsive single-page application for displaying PDF documents with clean URLs perfect for QR code sharing.
+Web đơn giản để hiển thị PDF files toàn màn hình, tương thích hoàn hảo với mobile và desktop. Dùng để thay thế Google Drive khi share file qua QR code.
 
-## 🌟 Features
+## 🌟 Tính năng
 
-- **Clean URLs**: Three separate routes for QR code generation
-  - `/vi` - Vietnamese document
-  - `/en` - English document  
-  - `/vi-en` - Bilingual document
-  
-- **Responsive Design**: Works perfectly on all devices (mobile, tablet, desktop)
-- **Dark/Light Theme**: Automatic theme switching with manual toggle
-- **PDF Actions**: Download, print, and fullscreen viewing
-- **Fast Loading**: Optimized performance with lazy loading
-- **Accessibility**: WCAG 2.1 compliant with keyboard navigation
+- ✅ **Hiển thị PDF toàn màn hình** - Không có navigation, header hay text thừa
+- ✅ **Responsive 100%** - Tự động tương thích điện thoại, tablet, máy tính
+- ✅ **3 Routes riêng biệt** - Dành cho QR code scanning
+- ✅ **Loading animation** - Hiệu ứng load đẹp mắt
+- ✅ **Tốc độ nhanh** - Tối ưu hiệu năng
 
-## 📱 Routes for QR Codes
+## 📱 Routes cho QR Codes
 
-Generate QR codes for these URLs:
+Sau khi deploy lên Netlify, bạn sẽ có 3 links:
 
-1. **Vietnamese**: `https://your-site.netlify.app/vi`
-2. **English**: `https://your-site.netlify.app/en`
-3. **Bilingual**: `https://your-site.netlify.app/vi-en`
+1. **Tiếng Việt**: `https://alphaasimovdocs.netlify.app/vi`
+2. **English**: `https://alphaasimovdocs.netlify.app/en`
+3. **Song ngữ**: `https://alphaasimovdocs.netlify.app/vi-en`
 
-## 🚀 Deployment
+Mỗi link hiển thị một file PDF khác nhau, hoàn hảo để tạo QR code riêng biệt.
 
-### Deploy to Netlify
+## 🚀 Deploy lên Netlify
 
-1. **Via Netlify CLI**:
-   ```bash
-   # Install Netlify CLI
-   npm install -g netlify-cli
-   
-   # Login to Netlify
-   netlify login
-   
-   # Deploy
-   netlify deploy --prod
-   ```
+### Cách 1: Drag & Drop (Đơn giản nhất)
 
-2. **Via Drag & Drop**:
-   - Go to [Netlify Drop](https://app.netlify.com/drop)
-   - Drag the entire project folder
-   - Done!
+1. Vào [Netlify Drop](https://app.netlify.com/drop)
+2. Kéo thả toàn bộ thư mục project
+3. Xong! URL sẽ có dạng: `https://your-site-name.netlify.app`
 
-3. **Via Git**:
-   - Push to GitHub/GitLab/Bitbucket
-   - Connect repository in Netlify dashboard
-   - Auto-deploy on push
+### Cách 2: Netlify CLI
 
-## 📂 Project Structure
+```bash
+# Cài đặt Netlify CLI
+npm install -g netlify-cli
+
+# Login
+netlify login
+
+# Deploy
+netlify deploy --prod
+```
+
+### Cách 3: Từ Git Repository
+
+1. Push code lên GitHub/GitLab
+2. Vào Netlify Dashboard → New site from Git
+3. Chọn repository
+4. Deploy settings để mặc định
+5. Click "Deploy site"
+
+## 📂 Cấu trúc Project
 
 ```
 QR_Intro/
-├── index.html          # Main HTML file
-├── styles.css          # Responsive CSS styles
-├── script.js           # JavaScript routing & functionality
-├── netlify.toml        # Netlify configuration
-├── README.md           # This file
-└── pdfs/               # PDF documents folder
-    ├── [EN-VN] Product Introduction.pdf
+├── index.html          # HTML tối giản
+├── styles.css          # CSS responsive
+├── script.js           # JavaScript routing
+├── netlify.toml        # Netlify config
+├── README.md           # File này
+└── pdfs/               # Thư mục chứa PDF
+    ├── [VN] Product Introduction.pdf
     ├── [EN] Product Introduction.pdf
-    └── [VN] Product Introduction.pdf
+    └── [EN-VN] Product Introduction.pdf
 ```
 
-## 🎨 Customization
+## 🔧 Thay đổi PDF Files
 
-### Change Colors
+1. Mở thư mục `pdfs/`
+2. Thay thế các file PDF (giữ nguyên tên file)
+3. Hoặc đổi tên file và cập nhật trong `script.js`:
 
-Edit CSS variables in `styles.css`:
+```javascript
+const PDF_ROUTES = {
+    'vi': './pdfs/[VN] Product Introduction.pdf',
+    'en': './pdfs/[EN] Product Introduction.pdf',
+    'vi-en': './pdfs/[EN-VN] Product Introduction.pdf'
+};
+```
+
+## 📱 Tạo QR Code
+
+Sau khi deploy, sử dụng các tool này để tạo QR code:
+
+- [QR Code Generator](https://www.qr-code-generator.com/)
+- [QRCode Monkey](https://www.qrcode-monkey.com/)
+- [Free QR](https://www.free-qr.com/)
+
+Paste link vào (ví dụ: `https://alphaasimovdocs.netlify.app/vi`) và tạo QR code.
+
+## 🎨 Tùy chỉnh màu Loading
+
+Trong file `styles.css`, dòng 32-33:
 
 ```css
-:root {
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
-    /* ... more variables */
+.loading-screen {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 ```
 
-### Add More Routes
+Thay đổi màu gradient theo ý bạn.
 
-1. Update `APP_CONFIG` in `script.js`
-2. Add corresponding HTML section in `index.html`
-3. Add redirect rule in `netlify.toml`
+## 🌐 Tương thích trình duyệt
 
-## 🔧 Browser Support
-
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- ✅ Chrome/Edge (Mobile & Desktop)
+- ✅ Safari (iOS & macOS)
+- ✅ Firefox (Mobile & Desktop)
+- ✅ Samsung Internet
+- ✅ UC Browser
 
 ## 📄 License
 
-MIT License - feel free to use for personal or commercial projects.
-
-## 🤝 Support
-
-For issues or questions, please create an issue in the repository.
+MIT License - Tự do sử dụng cho mọi mục đích.
 
 ---
 
-Built with ❤️ for easy PDF sharing via QR codes
+**Built by VuDangKhoa** | Dành cho Alpha Asimov Documentation
