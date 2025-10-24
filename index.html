@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PDF Document Viewer - Professional document sharing platform">
+    <meta name="author" content="PDF Viewer App">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF Document Viewer">
+    <meta property="og:description" content="Professional PDF document viewer and sharing platform">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="PDF Document Viewer">
+    <meta property="twitter:description" content="Professional PDF document viewer and sharing platform">
+    
+    <title>PDF Document Viewer</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📄%3C/text%3E%3C/svg%3E">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="./styles.css" as="style">
+    <link rel="preload" href="./script.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <p>Đang tải tài liệu...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>PDF Viewer</span>
+                </div>
+                
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="theme-toggle" aria-label="Chuyển đổi theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navigation" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <ul class="nav-list" role="menubar">
+                <li role="none">
+                    <button 
+                        class="nav-link active" 
+                        data-page="en-vn" 
+                        role="menuitem"
+                        aria-selected="true"
+                        onclick="showPage('en-vn')"
+                    >
+                        <i class="fas fa-language"></i>
+                        <span class="nav-text">EN-VN Document</span>
+                        <span class="nav-indicator"></span>
+                    </button>
+                </li>
+                <li role="none">
+                    <button 
+                        class="nav-link" 
+                        data-page="en" 
+                        role="menuitem"
+                        aria-selected="false"
+                        onclick="showPage('en')"
+                    >
+                        <i class="fas fa-globe"></i>
+                        <span class="nav-text">English Document</span>
+                        <span class="nav-indicator"></span>
+                    </button>
+                </li>
+                <li role="none">
+                    <button 
+                        class="nav-link" 
+                        data-page="vn" 
+                        role="menuitem"
+                        aria-selected="false"
+                        onclick="showPage('vn')"
+                    >
+                        <i class="fas fa-flag"></i>
+                        <span class="nav-text">Tiếng Việt</span>
+                        <span class="nav-indicator"></span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" role="main">
+        <div class="container">
+            <!-- Page: EN-VN Document -->
+            <section id="page-en-vn" class="page active" role="tabpanel" aria-labelledby="nav-en-vn">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        <i class="fas fa-language"></i>
+                        Product Introduction (EN-VN)
+                    </h1>
+                    <p class="page-description">Bilingual product introduction document</p>
+                </div>
+                
+                <div class="pdf-container">
+                    <div class="pdf-toolbar">
+                        <button class="toolbar-btn" onclick="downloadPDF('en-vn')" title="Tải xuống">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="printPDF('en-vn')" title="In tài liệu">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="toggleFullscreen('en-vn')" title="Toàn màn hình">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="pdf-viewer" id="pdf-viewer-en-vn">
+                        <iframe 
+                            src="./pdfs/[EN-VN] Product Introduction.pdf" 
+                            title="EN-VN Product Introduction Document"
+                            loading="lazy"
+                            class="pdf-frame"
+                            id="pdf-frame-en-vn"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page: English Document -->
+            <section id="page-en" class="page" role="tabpanel" aria-labelledby="nav-en">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        <i class="fas fa-globe"></i>
+                        Product Introduction (English)
+                    </h1>
+                    <p class="page-description">English version of product introduction</p>
+                </div>
+                
+                <div class="pdf-container">
+                    <div class="pdf-toolbar">
+                        <button class="toolbar-btn" onclick="downloadPDF('en')" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="printPDF('en')" title="Print document">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="toggleFullscreen('en')" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="pdf-viewer" id="pdf-viewer-en">
+                        <iframe 
+                            src="./pdfs/[EN] Product Introduction.pdf" 
+                            title="English Product Introduction Document"
+                            loading="lazy"
+                            class="pdf-frame"
+                            id="pdf-frame-en"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page: Vietnamese Document -->
+            <section id="page-vn" class="page" role="tabpanel" aria-labelledby="nav-vn">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        <i class="fas fa-flag"></i>
+                        Giới thiệu sản phẩm
+                    </h1>
+                    <p class="page-description">Tài liệu giới thiệu sản phẩm bằng tiếng Việt</p>
+                </div>
+                
+                <div class="pdf-container">
+                    <div class="pdf-toolbar">
+                        <button class="toolbar-btn" onclick="downloadPDF('vn')" title="Tải xuống">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="printPDF('vn')" title="In tài liệu">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="toggleFullscreen('vn')" title="Toàn màn hình">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="pdf-viewer" id="pdf-viewer-vn">
+                        <iframe 
+                            src="./pdfs/[VN] Product Introduction.pdf" 
+                            title="Vietnamese Product Introduction Document"
+                            loading="lazy"
+                            class="pdf-frame"
+                            id="pdf-frame-vn"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 PDF Viewer. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal" role="dialog" aria-labelledby="error-title" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="error-title" class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Lỗi tải tài liệu
+                </h2>
+                <button class="modal-close" onclick="closeModal('error-modal')" aria-label="Đóng">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="error-message">Không thể tải tài liệu PDF. Vui lòng thử lại sau.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal('error-modal')">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./script.js" defer></script>
+</body>
+</html>
