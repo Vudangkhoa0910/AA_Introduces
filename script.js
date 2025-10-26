@@ -4,11 +4,11 @@
    =================================== */
 
 const PDF_ROUTES = {
-    'vi': './pdfs/[VN] Product Introduction.pdf',
-    'en': './pdfs/[EN] Product Introduction.pdf',
-    'vi-en': './pdfs/[EN-VN] Product Introduction.pdf',
-    'vi_en': './pdfs/[EN-VN] Product Introduction.pdf',  // Alternative with underscore
-    've_en': './pdfs/[EN-VN] Product Introduction.pdf'   // Alternative route
+    'vi': 'pdfs/[VN] Product Introduction.pdf',
+    'en': 'pdfs/[EN] Product Introduction.pdf',
+    'vi-en': 'pdfs/[EN-VN] Product Introduction.pdf',
+    'vi_en': 'pdfs/[EN-VN] Product Introduction.pdf',  // Alternative with underscore
+    've_en': 'pdfs/[EN-VN] Product Introduction.pdf'   // Alternative route
 };
 
 const DEFAULT_ROUTE = 'vi-en';
@@ -64,7 +64,8 @@ function loadPDF(route) {
         
         if (isMobile) {
             // Use Google Docs Viewer for better mobile support
-            const fullUrl = window.location.origin + '/' + pdfUrl;
+            // Build absolute URL without './'
+            const fullUrl = `${window.location.protocol}//${window.location.host}/${pdfUrl}`;
             iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
         } else {
             // Direct PDF for desktop
