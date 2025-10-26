@@ -7,7 +7,8 @@ const PDF_ROUTES = {
     'vi': './pdfs/[VN] Product Introduction.pdf',
     'en': './pdfs/[EN] Product Introduction.pdf',
     'vi-en': './pdfs/[EN-VN] Product Introduction.pdf',
-    've_en': './pdfs/[EN-VN] Product Introduction.pdf' // Alternative route
+    'vi_en': './pdfs/[EN-VN] Product Introduction.pdf',  // Alternative with underscore
+    've_en': './pdfs/[EN-VN] Product Introduction.pdf'   // Alternative route
 };
 
 const DEFAULT_ROUTE = 'vi-en';
@@ -57,7 +58,18 @@ function loadPDF(route) {
     if (iframe) {
         // Add loading state
         iframe.style.opacity = '0';
-        iframe.src = pdfUrl;
+        
+        // Detect mobile device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+            // Use Google Docs Viewer for better mobile support
+            const fullUrl = window.location.origin + '/' + pdfUrl;
+            iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+        } else {
+            // Direct PDF for desktop
+            iframe.src = pdfUrl;
+        }
         
         // Fade in when loaded
         iframe.onload = () => {
@@ -71,6 +83,7 @@ function loadPDF(route) {
         'vi': 'Giới thiệu sản phẩm',
         'en': 'Product Introduction',
         'vi-en': 'Product Introduction (EN-VN)',
+        'vi_en': 'Product Introduction (EN-VN)',
         've_en': 'Product Introduction (EN-VN)'
     };
     document.title = titles[route] || 'PDF Viewer';

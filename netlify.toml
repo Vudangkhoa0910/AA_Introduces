@@ -21,6 +21,11 @@
   status = 200
 
 [[redirects]]
+  from = "/vi_en"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/ve_en"
   to = "/index.html"
   status = 200

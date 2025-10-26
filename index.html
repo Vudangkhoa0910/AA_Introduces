@@ -2,10 +2,24 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="PDF Document Viewer">
     <title>Alpha Asimov PDF Viewer</title>
-    <link rel="stylesheet" href="./styles.css?v=2.0">
+    <link rel="stylesheet" href="./styles.css?v=4.0">
+    <style>
+        /* Additional mobile fixes */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+        
+        body {
+            overscroll-behavior: none;
+            touch-action: pan-x pan-y;
+        }
+    </style>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -19,9 +33,11 @@
             id="pdf-frame"
             class="pdf-frame"
             title="PDF Document"
+            scrolling="yes"
+            allowfullscreen
         ></iframe>
     </div>
 
-    <script src="./script.js?v=2.0"></script>
+    <script src="./script.js?v=4.0"></script>
 </body>
 </html>
