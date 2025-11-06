@@ -63,10 +63,10 @@ function loadPDF(route) {
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         
         if (isMobile) {
-            // Use Mozilla PDF.js viewer for better mobile scrolling support
+            // Use Google Docs Viewer for mobile support
             // Build absolute URL
             const fullUrl = `${window.location.protocol}//${window.location.host}/${pdfUrl}`;
-            iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(fullUrl)}`;
+            iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
         } else {
             // Direct PDF for desktop
             iframe.src = pdfUrl;
