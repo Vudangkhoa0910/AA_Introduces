@@ -9,10 +9,10 @@
     <meta name="description" content="PDF Document Viewer">
     <title>Alpha Asimov PDF Viewer</title>
     
-    <!-- Preload default PDF for faster loading -->
-    <link rel="preload" href="pdfs/[EN-VN] Product Introduction.pdf" as="document">
+    <!-- PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     
-    <link rel="stylesheet" href="./styles.css?v=7.0">
+    <link rel="stylesheet" href="./styles.css?v=8.0">
     <style>
         /* Additional mobile fixes */
         * {
@@ -21,14 +21,7 @@
         }
         
         body {
-            overscroll-behavior-y: contain;
-            touch-action: pan-y;
-            overflow: hidden;
-        }
-        
-        iframe {
-            -webkit-overflow-scrolling: touch;
-            overflow-y: scroll !important;
+            overscroll-behavior-y: auto;
         }
     </style>
 </head>
@@ -40,16 +33,9 @@
 
     <!-- PDF Viewer Container -->
     <div id="pdf-container" class="pdf-container">
-        <iframe 
-            id="pdf-frame"
-            class="pdf-frame"
-            title="PDF Document"
-            scrolling="auto"
-            allowfullscreen
-            allow="fullscreen"
-        ></iframe>
+        <canvas id="pdf-canvas"></canvas>
     </div>
 
-    <script src="./script.js?v=7.0"></script>
+    <script src="./script.js?v=8.0"></script>
 </body>
 </html>
