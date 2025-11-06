@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="PDF Document Viewer">
     <title>Alpha Asimov PDF Viewer</title>
-    <link rel="stylesheet" href="./styles.css?v=4.1">
+    <link rel="stylesheet" href="./styles.css?v=6.0">
     <style>
         /* Additional mobile fixes */
         * {
@@ -17,8 +17,14 @@
         }
         
         body {
-            overscroll-behavior: none;
-            touch-action: pan-x pan-y;
+            overscroll-behavior-y: contain;
+            touch-action: pan-y;
+            overflow: hidden;
+        }
+        
+        iframe {
+            -webkit-overflow-scrolling: touch;
+            overflow-y: scroll !important;
         }
     </style>
 </head>
@@ -34,11 +40,12 @@
             id="pdf-frame"
             class="pdf-frame"
             title="PDF Document"
-            scrolling="yes"
+            scrolling="auto"
             allowfullscreen
+            allow="fullscreen"
         ></iframe>
     </div>
 
-    <script src="./script.js?v=4.1"></script>
+    <script src="./script.js?v=6.0"></script>
 </body>
 </html>

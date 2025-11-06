@@ -63,20 +63,29 @@ function loadPDF(route) {
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         
         if (isMobile) {
-            // Use Google Docs Viewer for better mobile support
-            // Build absolute URL without './'
+            // Use Mozilla PDF.js viewer for better mobile scrolling support
+            // Build absolute URL
             const fullUrl = `${window.location.protocol}//${window.location.host}/${pdfUrl}`;
-            iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+            iframe.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(fullUrl)}`;
         } else {
             // Direct PDF for desktop
             iframe.src = pdfUrl;
         }
         
-        // Fade in when loaded
+        // Fade in when loaded with longer timeout for large PDFs
         iframe.onload = () => {
-            iframe.style.transition = 'opacity 0.3s ease';
-            iframe.style.opacity = '1';
+            setTimeout(() => {
+                iframe.style.transition = 'opacity 0.5s ease';
+                iframe.style.opacity = '1';
+            }, 500);
         };
+        
+        // Fallback timeout to show iframe even if onload doesn't fire
+        setTimeout(() => {
+            if (iframe.style.opacity === '0') {
+                iframe.style.opacity = '1';
+            }
+        }, 3000);
     }
     
     // Update document title based on route
@@ -97,9 +106,10 @@ function loadPDF(route) {
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
+        // Wait longer for large PDFs to load
         setTimeout(() => {
             loadingScreen.classList.add('hidden');
-        }, 800);
+        }, 2000);
     }
 }
 
