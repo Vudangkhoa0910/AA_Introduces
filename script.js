@@ -1,10 +1,7 @@
 /* ===================================
-   PDF.js Viewer - All Pages Rendering
-   Responsive & Mobile-Friendly
+   Google Docs Viewer - Simple & Reliable
+   Shows all pages with scroll
    =================================== */
-
-// Configure PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 const PDF_ROUTES = {
     'vi': 'pdfs/[VN] Product Introduction.pdf',
@@ -47,10 +44,10 @@ function getCurrentPath() {
 }
 
 /* ===================================
-   PDF Loading & Rendering
+   PDF Loading with Google Docs Viewer
    =================================== */
 
-async function loadPDF(route) {
+function loadPDF(route) {
     const pdfUrl = PDF_ROUTES[route];
     
     if (!pdfUrl) {
@@ -59,63 +56,43 @@ async function loadPDF(route) {
         return;
     }
     
-    const canvas = document.getElementById('pdf-canvas');
-    const container = document.getElementById('pdf-container');
+    const iframe = document.getElementById('pdf-frame');
+    if (!iframe) return;
     
-    if (!canvas) return;
+    // Get full URL for Google Docs Viewer
+    const fullUrl = window.location.origin + '/' + pdfUrl;
+    const googleViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
     
-    try {
-        // Load PDF document
-        const loadingTask = pdfjsLib.getDocument(pdfUrl);
-        const pdf = await loadingTask.promise;
-        
-        // Get first page to calculate scale
-        const firstPage = await pdf.getPage(1);
-        const viewport = firstPage.getViewport({ scale: 1 });
-        
-        // Calculate optimal scale for responsive display
-        const containerWidth = window.innerWidth;
-        const scale = containerWidth / viewport.width;
-        const scaledViewport = firstPage.getViewport({ scale });
-        
-        // Calculate total canvas height for all pages
-        const totalHeight = scaledViewport.height * pdf.numPages;
-        
-        // Set canvas dimensions
-        canvas.width = scaledViewport.width;
-        canvas.height = totalHeight;
-        canvas.style.width = '100%';
-        canvas.style.height = 'auto';
-        
-        const context = canvas.getContext('2d');
-        
-        // Render all pages sequentially
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            const page = await pdf.getPage(pageNum);
-            const pageViewport = page.getViewport({ scale });
-            
-            // Calculate Y offset for current page
-            const yOffset = (pageNum - 1) * scaledViewport.height;
-            
-            // Render page at correct vertical position
-            await page.render({
-                canvasContext: context,
-                viewport: pageViewport,
-                transform: [1, 0, 0, 1, 0, yOffset]
-            }).promise;
+    // Set iframe source
+    iframe.style.opacity = '0';
+    iframe.src = googleViewerUrl;
+    
+    // Track loading
+    let hasLoaded = false;
+    
+    // Method 1: iframe onload
+    iframe.onload = () => {
+        if (!hasLoaded) {
+            hasLoaded = true;
+            setTimeout(() => {
+                iframe.style.transition = 'opacity 0.5s ease';
+                iframe.style.opacity = '1';
+                hideLoadingScreen();
+            }, 500);
         }
-        
-        // Show container and hide loading screen
-        container.style.opacity = '1';
-        hideLoadingScreen();
-        
-        // Update title
-        updateTitle(route);
-        
-    } catch (error) {
-        console.error('Error loading PDF:', error);
-        hideLoadingScreen();
-    }
+    };
+    
+    // Method 2: Timeout fallback (3s)
+    setTimeout(() => {
+        if (!hasLoaded) {
+            hasLoaded = true;
+            iframe.style.opacity = '1';
+            hideLoadingScreen();
+        }
+    }, 3000);
+    
+    // Update title
+    updateTitle(route);
 }
 
 /* ===================================

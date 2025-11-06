@@ -9,10 +9,7 @@
     <meta name="description" content="PDF Document Viewer">
     <title>Alpha Asimov PDF Viewer</title>
     
-    <!-- PDF.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    
-    <link rel="stylesheet" href="./styles.css?v=8.0">
+    <link rel="stylesheet" href="./styles.css?v=9.0">
     <style>
         /* Additional mobile fixes */
         * {
@@ -21,7 +18,14 @@
         }
         
         body {
-            overscroll-behavior-y: auto;
+            overscroll-behavior-y: contain;
+            touch-action: pan-y;
+            overflow: hidden;
+        }
+        
+        iframe {
+            -webkit-overflow-scrolling: touch;
+            overflow-y: scroll !important;
         }
     </style>
 </head>
@@ -33,9 +37,16 @@
 
     <!-- PDF Viewer Container -->
     <div id="pdf-container" class="pdf-container">
-        <canvas id="pdf-canvas"></canvas>
+        <iframe 
+            id="pdf-frame"
+            class="pdf-frame"
+            title="PDF Document"
+            scrolling="auto"
+            allowfullscreen
+            allow="fullscreen"
+        ></iframe>
     </div>
 
-    <script src="./script.js?v=8.0"></script>
+    <script src="./script.js?v=9.0"></script>
 </body>
 </html>
