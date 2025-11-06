@@ -19,7 +19,19 @@ const DEFAULT_ROUTE = 'vi-en';
 
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
-    hideLoadingScreen();
+    
+    // Hide loading screen after iframe loads
+    const iframe = document.getElementById('pdf-frame');
+    if (iframe) {
+        iframe.addEventListener('load', () => {
+            hideLoadingScreen();
+        });
+    }
+    
+    // Fallback: hide loading screen after timeout
+    setTimeout(() => {
+        hideLoadingScreen();
+    }, 3000);
 });
 
 /* ===================================
@@ -72,20 +84,20 @@ function loadPDF(route) {
             iframe.src = pdfUrl;
         }
         
-        // Fade in when loaded with longer timeout for large PDFs
+        // Fade in when loaded
         iframe.onload = () => {
-            setTimeout(() => {
-                iframe.style.transition = 'opacity 0.5s ease';
-                iframe.style.opacity = '1';
-            }, 500);
+            iframe.style.transition = 'opacity 0.5s ease';
+            iframe.style.opacity = '1';
+            hideLoadingScreen();
         };
         
-        // Fallback timeout to show iframe even if onload doesn't fire
+        // Fallback timeout to show iframe and hide loading
         setTimeout(() => {
             if (iframe.style.opacity === '0') {
                 iframe.style.opacity = '1';
             }
-        }, 3000);
+            hideLoadingScreen();
+        }, 4000);
     }
     
     // Update document title based on route
@@ -105,11 +117,8 @@ function loadPDF(route) {
 
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
-    if (loadingScreen) {
-        // Wait longer for large PDFs to load
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-        }, 2000);
+    if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+        loadingScreen.classList.add('hidden');
     }
 }
 
