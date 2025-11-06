@@ -19,19 +19,6 @@ const DEFAULT_ROUTE = 'vi-en';
 
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
-    
-    // Hide loading screen after iframe loads
-    const iframe = document.getElementById('pdf-frame');
-    if (iframe) {
-        iframe.addEventListener('load', () => {
-            hideLoadingScreen();
-        });
-    }
-    
-    // Fallback: hide loading screen after timeout
-    setTimeout(() => {
-        hideLoadingScreen();
-    }, 3000);
 });
 
 /* ===================================
@@ -79,25 +66,35 @@ function loadPDF(route) {
             // Build absolute URL
             const fullUrl = `${window.location.protocol}//${window.location.host}/${pdfUrl}`;
             iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+            
+            // Google Docs Viewer needs more time to render
+            // Wait 5 seconds for Google Docs to fully load
+            setTimeout(() => {
+                iframe.style.transition = 'opacity 0.5s ease';
+                iframe.style.opacity = '1';
+                hideLoadingScreen();
+            }, 5000);
         } else {
             // Direct PDF for desktop
             iframe.src = pdfUrl;
+            
+            // Desktop loads faster
+            iframe.onload = () => {
+                setTimeout(() => {
+                    iframe.style.transition = 'opacity 0.5s ease';
+                    iframe.style.opacity = '1';
+                    hideLoadingScreen();
+                }, 1000);
+            };
         }
         
-        // Fade in when loaded
-        iframe.onload = () => {
-            iframe.style.transition = 'opacity 0.5s ease';
-            iframe.style.opacity = '1';
-            hideLoadingScreen();
-        };
-        
-        // Fallback timeout to show iframe and hide loading
+        // Ultimate fallback - ensure loading screen always disappears
         setTimeout(() => {
             if (iframe.style.opacity === '0') {
                 iframe.style.opacity = '1';
             }
             hideLoadingScreen();
-        }, 4000);
+        }, 8000);
     }
     
     // Update document title based on route
