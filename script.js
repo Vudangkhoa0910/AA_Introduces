@@ -61,40 +61,42 @@ function loadPDF(route) {
         // Detect mobile device
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         
-        if (isMobile) {
-            // Use Google Docs Viewer for mobile support
-            // Build absolute URL
-            const fullUrl = `${window.location.protocol}//${window.location.host}/${pdfUrl}`;
-            iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
-            
-            // Google Docs Viewer needs more time to render
-            // Wait 5 seconds for Google Docs to fully load
-            setTimeout(() => {
-                iframe.style.transition = 'opacity 0.5s ease';
-                iframe.style.opacity = '1';
-                hideLoadingScreen();
-            }, 5000);
-        } else {
-            // Direct PDF for desktop
-            iframe.src = pdfUrl;
-            
-            // Desktop loads faster
-            iframe.onload = () => {
+        // Always use direct PDF link for better performance
+        iframe.src = pdfUrl;
+        
+        // Track loading
+        let hasLoaded = false;
+        
+        // Method 1: Listen for iframe load event
+        iframe.onload = () => {
+            if (!hasLoaded) {
+                hasLoaded = true;
                 setTimeout(() => {
-                    iframe.style.transition = 'opacity 0.5s ease';
+                    iframe.style.transition = 'opacity 0.3s ease';
                     iframe.style.opacity = '1';
                     hideLoadingScreen();
-                }, 1000);
-            };
-        }
-        
-        // Ultimate fallback - ensure loading screen always disappears
-        setTimeout(() => {
-            if (iframe.style.opacity === '0') {
-                iframe.style.opacity = '1';
+                }, 300);
             }
-            hideLoadingScreen();
-        }, 8000);
+        };
+        
+        // Method 2: Progressive timeout - show earlier if possible
+        setTimeout(() => {
+            if (!hasLoaded) {
+                hasLoaded = true;
+                iframe.style.transition = 'opacity 0.3s ease';
+                iframe.style.opacity = '1';
+                hideLoadingScreen();
+            }
+        }, 2000);
+        
+        // Method 3: Ultimate fallback
+        setTimeout(() => {
+            if (!hasLoaded) {
+                hasLoaded = true;
+                iframe.style.opacity = '1';
+                hideLoadingScreen();
+            }
+        }, 4000);
     }
     
     // Update document title based on route

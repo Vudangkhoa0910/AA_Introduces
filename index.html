@@ -8,7 +8,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="PDF Document Viewer">
     <title>Alpha Asimov PDF Viewer</title>
-    <link rel="stylesheet" href="./styles.css?v=6.3">
+    
+    <!-- Preload default PDF for faster loading -->
+    <link rel="preload" href="pdfs/[EN-VN] Product Introduction.pdf" as="document">
+    
+    <link rel="stylesheet" href="./styles.css?v=7.0">
     <style>
         /* Additional mobile fixes */
         * {
@@ -46,6 +50,6 @@
         ></iframe>
     </div>
 
-    <script src="./script.js?v=6.3"></script>
+    <script src="./script.js?v=7.0"></script>
 </body>
 </html>
