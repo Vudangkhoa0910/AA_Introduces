@@ -72,6 +72,7 @@ body {
     background: #1a1a1a;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 /* Video Section */
@@ -79,6 +80,8 @@ body {
     width: 100%;
     background: #000;
     flex-shrink: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .video-wrapper {
@@ -97,17 +100,18 @@ body {
     height: 100%;
 }
 
-/* PDF Section */
+/* PDF Section - starts exactly after video */
 .pdf-section {
     width: 100%;
-    flex: 1;
     min-height: 100vh;
+    background: #1a1a1a;
+    position: relative;
+    flex: 1 1 auto;
 }
 
 .pdf-frame {
     width: 100%;
-    height: 100%;
-    min-height: 100vh;
+    height: 100vh;
     border: none;
     display: block;
     opacity: 0;
