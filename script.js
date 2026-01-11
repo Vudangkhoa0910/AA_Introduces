@@ -68,10 +68,14 @@ function loadPDF(route) {
     
     // Check if this route needs video
     if (route === 'adgmin_video') {
-        // Create video container at top
-        const videoContainer = document.createElement('div');
-        videoContainer.id = 'video-container';
-        videoContainer.style.cssText = 'width: 100%; background: #000; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; flex-shrink: 0;';
+        // Create video wrapper with fixed aspect ratio
+        const videoWrapper = document.createElement('div');
+        videoWrapper.id = 'video-container';
+        videoWrapper.style.cssText = 'width: 100%; background: #000; flex-shrink: 0; display: block;';
+        
+        // Create aspect ratio container
+        const videoAspect = document.createElement('div');
+        videoAspect.style.cssText = 'position: relative; width: 100%; padding-bottom: 56.25%; height: 0;';
         
         const videoIframe = document.createElement('iframe');
         videoIframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%;';
@@ -82,18 +86,19 @@ function loadPDF(route) {
         videoIframe.referrerPolicy = 'strict-origin-when-cross-origin';
         videoIframe.allowFullscreen = true;
         
-        videoContainer.appendChild(videoIframe);
+        videoAspect.appendChild(videoIframe);
+        videoWrapper.appendChild(videoAspect);
         
         // Insert video at the beginning of container (before PDF iframe)
-        container.insertBefore(videoContainer, container.firstChild);
+        container.insertBefore(videoWrapper, container.firstChild);
         
-        // Reset PDF iframe height to take remaining space
+        // Set PDF iframe height
+        iframe.style.height = '100vh';
         iframe.style.minHeight = '100vh';
-        iframe.style.flex = '1';
     } else {
         // Reset PDF iframe to full size for non-video routes
+        iframe.style.height = '100vh';
         iframe.style.minHeight = '100vh';
-        iframe.style.flex = '1';
     }
     
     // Get full URL for Google Docs Viewer
