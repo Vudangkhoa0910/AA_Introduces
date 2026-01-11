@@ -152,6 +152,24 @@ function updateTitle(route) {
     document.title = titles[route] || 'PDF Viewer';
 }
 
+// Handle window resize for responsive layout
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        const route = getCurrentPath() || DEFAULT_ROUTE;
+        // Only reload if video route to maintain responsive video
+        if (route === 'adgmin_video') {
+            const iframe = document.getElementById('pdf-frame');
+            if (iframe && iframe.src) {
+                // Force reload to adjust for new viewport size
+                const currentSrc = iframe.src;
+                iframe.src = currentSrc;
+            }
+        }
+    }, 250);
+});
+
 /* ===================================
    Error Handling
    =================================== */

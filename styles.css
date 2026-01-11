@@ -87,6 +87,24 @@ body {
     display: block;
 }
 
+/* Ensure responsive video on all devices */
+@media (max-width: 768px) {
+    #video-container {
+        width: 100vw;
+    }
+    
+    .pdf-frame {
+        min-height: 100vh;
+    }
+}
+
+@media (min-width: 769px) {
+    #video-container {
+        width: 100%;
+        max-width: 100vw;
+    }
+}
+
 /* ===================================
    Responsive Design
    =================================== */
