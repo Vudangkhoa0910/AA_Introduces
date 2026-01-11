@@ -9,7 +9,7 @@
     <meta name="description" content="PDF Document Viewer">
     <title>Alpha Asimov PDF Viewer</title>
     
-    <link rel="stylesheet" href="./styles.css?v=9.8">
+    <link rel="stylesheet" href="./styles.css?v=10.0">
     <style>
         /* Additional mobile fixes */
         * {
@@ -35,19 +35,35 @@
         <div class="loader"></div>
     </div>
 
-    <!-- PDF Viewer Container -->
-    <div id="pdf-container" class="pdf-container">
-        <!-- Video will be inserted here dynamically for adgmin_video route -->
-        <iframe 
-            id="pdf-frame"
-            class="pdf-frame"
-            title="PDF Document"
-            scrolling="no"
-            allowfullscreen
-            allow="fullscreen"
-        ></iframe>
+    <!-- Main Container -->
+    <div id="main-container" class="main-container">
+        <!-- Video container (only for adgmin_video) -->
+        <div id="video-section" class="video-section" style="display: none;">
+            <div class="video-wrapper">
+                <iframe 
+                    id="video-frame"
+                    class="video-frame"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+        
+        <!-- PDF container -->
+        <div id="pdf-section" class="pdf-section">
+            <iframe 
+                id="pdf-frame"
+                class="pdf-frame"
+                title="PDF Document"
+                frameborder="0"
+                allowfullscreen
+            ></iframe>
+        </div>
     </div>
 
-    <script src="./script.js?v=9.8"></script>
+    <script src="./script.js?v=10.0"></script>
 </body>
 </html>
