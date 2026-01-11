@@ -35,6 +35,11 @@
   to = "/index.html"
   status = 200
 
+[[redirects]]
+  from = "/adgmin_video"
+  to = "/index.html"
+  status = 200
+
 # Catch-all redirect for any other path
 [[redirects]]
   from = "/*"
