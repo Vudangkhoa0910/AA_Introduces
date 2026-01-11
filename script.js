@@ -41,7 +41,18 @@ function initRouter() {
 }
 
 function getCurrentPath() {
-    const path = window.location.pathname.substring(1);
+    // Check hash first (for local testing: index.html#adgmin_video)
+    if (window.location.hash) {
+        return window.location.hash.substring(1);
+    }
+    
+    let path = window.location.pathname.substring(1);
+    
+    // Remove index.html if present (for local testing)
+    if (path === 'index.html' || path === '' || path.endsWith('/index.html')) {
+        path = '';
+    }
+    
     return path || null;
 }
 
@@ -76,24 +87,35 @@ function loadPDF(route) {
         }
     }
     
-    // Get full URL for Google Docs Viewer
-    const fullUrl = window.location.origin + '/' + pdfUrl;
-    const googleViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+    // Check if running on localhost (for testing)
+    const isLocalhost = window.location.hostname === 'localhost' || 
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.protocol === 'file:';
+    
+    let pdfSrc;
+    if (isLocalhost) {
+        // Use direct PDF for local testing
+        pdfSrc = pdfUrl;
+    } else {
+        // Use Google Docs Viewer for production
+        const fullUrl = window.location.origin + '/' + pdfUrl;
+        pdfSrc = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+    }
     
     // Set iframe source
-    iframe.style.opacity = '0';
-    iframe.src = googleViewerUrl;
+    pdfIframe.style.opacity = '0';
+    pdfIframe.src = pdfSrc;
     
     // Track loading
     let hasLoaded = false;
     
     // Method 1: iframe onload
-    iframe.onload = () => {
+    pdfIframe.onload = () => {
         if (!hasLoaded) {
             hasLoaded = true;
             setTimeout(() => {
-                iframe.style.transition = 'opacity 0.5s ease';
-                iframe.style.opacity = '1';
+                pdfIframe.style.transition = 'opacity 0.5s ease';
+                pdfIframe.style.opacity = '1';
                 hideLoadingScreen();
             }, 500);
         }
@@ -103,7 +125,7 @@ function loadPDF(route) {
     setTimeout(() => {
         if (!hasLoaded) {
             hasLoaded = true;
-            iframe.style.opacity = '1';
+            pdfIframe.style.opacity = '1';
             hideLoadingScreen();
         }
     }, 3000);
