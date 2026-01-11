@@ -8,7 +8,8 @@ const PDF_ROUTES = {
     'en': 'pdfs/[EN] Product Introduction.pdf',
     'vi-en': 'pdfs/[EN-VN] Product Introduction.pdf',
     'vi_en': 'pdfs/[EN-VN] Product Introduction.pdf',
-    've_en': 'pdfs/[EN-VN] Product Introduction.pdf'
+    've_en': 'pdfs/[EN-VN] Product Introduction.pdf',
+    'adgmin': 'pdfs/[ADGMIN] Product Introduction.pdf'
 };
 
 const DEFAULT_ROUTE = 'vi-en';
@@ -112,7 +113,8 @@ function updateTitle(route) {
         'en': 'Product Introduction',
         'vi-en': 'Product Introduction (EN-VN)',
         'vi_en': 'Product Introduction (EN-VN)',
-        've_en': 'Product Introduction (EN-VN)'
+        've_en': 'Product Introduction (EN-VN)',
+        'adgmin': 'ADGMIN Product Introduction'
     };
     document.title = titles[route] || 'PDF Viewer';
 }
