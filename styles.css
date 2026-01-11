@@ -69,28 +69,28 @@ body {
 .pdf-container {
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    display: block;
     background: #1a1a1a;
 }
 
 .pdf-frame {
     width: 100%;
-    min-height: 100vh;
     height: 100vh;
+    min-height: 100vh;
     border: none;
     display: block;
     opacity: 0;
     transition: opacity 0.5s ease;
-    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #video-container {
     width: 100%;
     background: #000;
-    flex-shrink: 0;
     display: block;
-    z-index: 1;
+    margin: 0;
+    padding: 0;
 }
 
 .pdf-frame {

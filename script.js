@@ -68,14 +68,13 @@ function loadPDF(route) {
     
     // Check if this route needs video
     if (route === 'adgmin_video') {
-        // Create video wrapper with fixed aspect ratio
+        // Create video wrapper
         const videoWrapper = document.createElement('div');
         videoWrapper.id = 'video-container';
-        videoWrapper.style.cssText = 'width: 100%; background: #000; flex-shrink: 0; display: block;';
         
         // Create aspect ratio container
         const videoAspect = document.createElement('div');
-        videoAspect.style.cssText = 'position: relative; width: 100%; padding-bottom: 56.25%; height: 0;';
+        videoAspect.style.cssText = 'position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden;';
         
         const videoIframe = document.createElement('iframe');
         videoIframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%;';
@@ -89,16 +88,8 @@ function loadPDF(route) {
         videoAspect.appendChild(videoIframe);
         videoWrapper.appendChild(videoAspect);
         
-        // Insert video at the beginning of container (before PDF iframe)
-        container.insertBefore(videoWrapper, container.firstChild);
-        
-        // Set PDF iframe height
-        iframe.style.height = '100vh';
-        iframe.style.minHeight = '100vh';
-    } else {
-        // Reset PDF iframe to full size for non-video routes
-        iframe.style.height = '100vh';
-        iframe.style.minHeight = '100vh';
+        // Insert video BEFORE PDF iframe to appear on top
+        container.insertBefore(videoWrapper, iframe);
     }
     
     // Get full URL for Google Docs Viewer
