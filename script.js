@@ -75,8 +75,8 @@ function loadPDF(route) {
     
     if (!pdfIframe) return;
     
-    // Handle video section for adgmin_video route
-    if (route === 'adgmin_video') {
+    // Handle video section for routes that need video
+    if (route === 'adgmin_video' || route === 'en') {
         if (videoSection && videoFrame) {
             videoSection.style.display = 'block';
             videoFrame.src = 'https://www.youtube.com/embed/FHMFlllsj2s?si=X0VmaPMuEgr2e4d8&autoplay=1&mute=1';
