@@ -62,12 +62,16 @@ function loadPDF(route) {
     const iframe = document.getElementById('pdf-frame');
     if (!iframe || !container) return;
     
+    // Remove existing video if any
+    const existingVideo = document.getElementById('video-container');
+    if (existingVideo) existingVideo.remove();
+    
     // Check if this route needs video
     if (route === 'adgmin_video') {
-        // Add video container at top
+        // Create video container at top
         const videoContainer = document.createElement('div');
         videoContainer.id = 'video-container';
-        videoContainer.style.cssText = 'width: 100%; background: #000; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;';
+        videoContainer.style.cssText = 'width: 100%; background: #000; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; flex-shrink: 0;';
         
         const videoIframe = document.createElement('iframe');
         videoIframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%;';
@@ -80,21 +84,16 @@ function loadPDF(route) {
         
         videoContainer.appendChild(videoIframe);
         
-        // Remove existing video if any
-        const existingVideo = document.getElementById('video-container');
-        if (existingVideo) existingVideo.remove();
+        // Insert video at the beginning of container (before PDF iframe)
+        container.insertBefore(videoContainer, container.firstChild);
         
-        // Insert video before PDF iframe
-        container.insertBefore(videoContainer, iframe);
-        
-        // Adjust PDF iframe to account for video
-        iframe.style.height = 'calc(100vh - 56.25vw)';
-        iframe.style.marginTop = '0';
+        // Reset PDF iframe height to take remaining space
+        iframe.style.minHeight = '100vh';
+        iframe.style.flex = '1';
     } else {
-        // Remove video if switching from adgmin_video to other routes
-        const existingVideo = document.getElementById('video-container');
-        if (existingVideo) existingVideo.remove();
-        iframe.style.height = '100%';
+        // Reset PDF iframe to full size for non-video routes
+        iframe.style.minHeight = '100vh';
+        iframe.style.flex = '1';
     }
     
     // Get full URL for Google Docs Viewer
