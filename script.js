@@ -5,7 +5,7 @@
 
 const PDF_ROUTES = {
     'vi': 'pdfs/[VN] Product Introduction.pdf',
-    'en': 'pdfs/[EN] Product Introduction.pdf',
+    'en': 'pdfs/[EN-VN] Product Introduction.pdf',
     'vi-en': 'pdfs/[EN-VN] Product Introduction.pdf',
     'vi_en': 'pdfs/[EN-VN] Product Introduction.pdf',
     've_en': 'pdfs/[EN-VN] Product Introduction.pdf',
